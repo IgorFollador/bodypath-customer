@@ -9,7 +9,7 @@ module.exports = {
         email: 'bernardo@witkoski.com',
         cpf: "123.456.789-10",
         phone: "(54) 99112-2334",
-        adress: "Avenida Floraino Peixoto, 881 - Erechim - RS",
+        address: "Avenida Floraino Peixoto, 881 - Erechim - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -19,7 +19,7 @@ module.exports = {
         email: 'jaisson@bassanesi.com',
         cpf: "109.876.543-21",
         phone: "(54) 99617-7754",
-        adress: "Rua Marcio Américo, 365 - Getúlio Vargas - RS",
+        address: "Rua Marcio Américo, 365 - Getúlio Vargas - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -29,7 +29,7 @@ module.exports = {
         email: 'diego@gielda.com',
         cpf: "166.277.001-30",
         phone: "(54) 99845-6565",
-        adress: "Rua Oscar Salazar, 483 - Erechim - RS",
+        address: "Rua Oscar Salazar, 483 - Erechim - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -39,7 +39,7 @@ module.exports = {
         email: 'matheus@grigoleto.com',
         cpf: "022.644.719-55",
         phone: "(54) 99112-9611",
-        adress: "Avenida Paulo Cabral, 1002 - Getúlio Vargas - RS",
+        address: "Avenida Paulo Cabral, 1002 - Getúlio Vargas - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -49,7 +49,7 @@ module.exports = {
         email: 'leonardo@vicente.com',
         cpf: "322.643.332-88",
         phone: "(54) 99412-6622",
-        adress: "Rua Pedro Coelho, 3032 - Erechim - RS",
+        address: "Rua Pedro Coelho, 3032 - Erechim - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -59,7 +59,7 @@ module.exports = {
         email: 'bernardo@barro.com',
         cpf: "232.444.749-22",
         phone: "(54) 99666-9612",
-        adress: "Rua Pernambuco, 6600 - Erechim - RS",
+        address: "Rua Pernambuco, 6600 - Erechim - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -69,7 +69,7 @@ module.exports = {
         email: 'ryan@covattis.com',
         cpf: "111.444.333-22",
         phone: "(54) 99776-0612",
-        adress: "Rua Pernambuco, 3300 - Erechim - RS",
+        address: "Rua Pernambuco, 3300 - Erechim - RS",
         createdAt: new Date(),
         updatedAt: new Date()
       },

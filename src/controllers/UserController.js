@@ -38,6 +38,8 @@ class UserController {
         const { id } = req.params;
         const formPessoa = req.body;
         try {
+            const user = await database.Users.findByPk(id);
+            if(user === null) return res.status(404).json({ message: 'User not found' });
             await database.Users.update(formPessoa, {
                 where: {
                     id: Number(id)
@@ -52,6 +54,8 @@ class UserController {
     static async deleteUser(req, res) {
         const { id } = req.params;
         try {
+            const user = await database.Users.findByPk(id);
+            if(user === null) return res.status(404).json({ message: 'User not found' });
             await database.Users.destroy({
                 where: {
                     id: Number(id)

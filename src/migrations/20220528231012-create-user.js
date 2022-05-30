@@ -16,6 +16,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       cpf: {
@@ -26,6 +31,11 @@ module.exports = {
       },
       address: {
         type: Sequelize.STRING
+      },
+      profile_id: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'Profiles', key: 'id' }
       },
       createdAt: {
         allowNull: false,

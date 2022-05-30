@@ -14,6 +14,15 @@ class UserController {
         }
     }
 
+    static async readAllNames(req, res) {
+        try {
+            const allNames = await database.Users.findAll({ attributes: ['id', 'firstName', 'lastName'] });
+            return res.status(200).json(allNames);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
     static async readUserById(req, res) {
         const { id } = req.params;
         try {

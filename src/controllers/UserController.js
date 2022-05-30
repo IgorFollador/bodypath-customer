@@ -1,9 +1,13 @@
 const database = require('../models');
+const bcrypt = require('bcrypt');
 
 class UserController {
     static async readAllUsers(req, res) {
         try {
             const allUsers = await database.Users.findAll();
+            allUsers.forEach(user => {
+                user.password = null;
+            });
             return res.status(200).json(allUsers);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -13,22 +17,30 @@ class UserController {
     static async readUserById(req, res) {
         const { id } = req.params;
         try {
-            const pessoa = await database.Users.findOne({ 
+            const user = await database.Users.findOne({ 
                 where: { 
                     id: Number(id) 
                 } 
             });
-            return res.status(200).json(pessoa);
+            if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
+            user.password = null;
+            return res.status(200).json(user);
         } catch (error) {
             return res.status(500).json(error.message);
         }
     }
 
     static async createUser(req, res) {
-        const formPessoa = req.body;
+        const formUser = req.body;
+        const selectUser = await database.User.findOne({where: {email: formUser.email}});
+        if(selectUser) return res.status(507).json({ message: 'Email has been registered' });
+        if(formUser.password === null) return res.status(400).json({ message: 'Password is required' });
+        if(formUser.profile_id === null) formUser.profile_id = 4;
         try {
-            const pessoa = await database.Users.create(formPessoa);
-            return res.status(201).json(pessoa);
+            formUser.password = bcrypt.hashSync(formUser.password);
+            const user = await database.Users.create(formUser);
+            user.password = null;
+            return res.status(201).json(user);
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -36,11 +48,11 @@ class UserController {
 
     static async updateUser(req, res) {
         const { id } = req.params;
-        const formPessoa = req.body;
+        const formUser = req.body;
         try {
             const user = await database.Users.findByPk(id);
             if(user === null) return res.status(404).json({ message: 'User not found' });
-            await database.Users.update(formPessoa, {
+            await database.Users.update(formUser, {
                 where: {
                     id: Number(id)
                 }

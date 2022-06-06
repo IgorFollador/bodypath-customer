@@ -6,6 +6,6 @@ const port = 3001;
 
 routes(app);
 
-app.listen(port, () => console.log(`Sevidor está rodando na porta ${port}`));
+app.listen(port, () => console.log(`Server is running on port ${port}`));
 
 module.exports = app;

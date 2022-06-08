@@ -44,7 +44,7 @@ class UserController {
         const selectUser = await database.Users.findOne({where: {email: formUser.email}});
         if(selectUser) return res.status(507).json({ message: 'Email has been registered' });
         if(formUser.password === null) return res.status(400).json({ message: 'Password is required' });
-        if(formUser.profile_id === null) formUser.profile_id = 4;
+        if(formUser.profile_id == null | formUser.profile_id === null) formUser.profile_id = 4;
         try {
             formUser.password = bcrypt.hashSync(formUser.password, 10);
             const user = await database.Users.create(formUser);

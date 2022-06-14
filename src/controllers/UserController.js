@@ -39,6 +39,22 @@ class UserController {
         }
     }
 
+    static async readNameById(req, res) {
+        const { id } = req.params;
+        try {
+            const user = await database.Users.findOne({ 
+                where: { 
+                    id: Number(id) 
+                },
+                attributes: ['firstName', 'lastName']
+            });
+            if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json(error.message);
+        }
+    }
+
     static async createUser(req, res) {
         const formUser = req.body;
         const selectUser = await database.Users.findOne({where: {email: formUser.email}});

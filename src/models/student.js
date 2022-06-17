@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models.Users, {
         foreignKey: 'user_id'
       });
-      Student.hasMany(models.Professionals, {
+      Student.belongsTo(models.Professionals, {
         foreignKey: 'professional_id'
       });
     }

@@ -12,10 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       User.belongsTo(models.Profiles, {
         foreignKey: 'profile_id'
-      })
+      });
       User.hasMany(models.Professionals, {
         foreignKey: 'user_id'
-      }) 
+      });
+      User.hasMany(models.Students, {
+        foreignKey: 'user_id'
+      })
     }
   }
   User.init({

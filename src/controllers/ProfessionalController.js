@@ -29,7 +29,7 @@ class ProfessionalController {
             //to review
             const STUDENT = 4;
             const NUTRICIONIST = 2;
-            if(user.profile_id == STUDENT) { // update profile if user is student
+            if(user.profile_id == STUDENT) { // update profile if user is client
                 user.profile_id = NUTRICIONIST;
                 await database.Users.update(user, {
                     where: { 

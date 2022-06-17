@@ -1,5 +1,6 @@
 const bodyParser = require('body-parser');
 const usersRoute = require('./usersRoute');
+const professionalsRoute = require('./professionalsRoute');
 
 module.exports = app => {
     app.use(function (req, res, next) {
@@ -14,4 +15,5 @@ module.exports = app => {
     app.get('/', (req, res) => res.send('Customer Microservice'));
     
     app.use(usersRoute);
+    app.use(professionalsRoute);
 }

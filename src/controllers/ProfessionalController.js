@@ -58,7 +58,7 @@ class ProfessionalController {
                     user_id: Number(id)
                 }
             })
-            return res.status(200).json({ message: `ID ${id} deleted from professional reference` });
+            return res.status(200).json({ message: `User with ID ${id} deleted from professional reference` });
 
         } catch (error) {
             res.status(500).json({ message: error.message });

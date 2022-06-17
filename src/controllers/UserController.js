@@ -4,13 +4,12 @@ const bcrypt = require('bcrypt');
 class UserController {
     static async readAllUsers(req, res) {
         try {
-            const allUsers = await database.Users.findAll();
-            allUsers.forEach(user => {
-                user.password = null;
+            const allUsers = await database.Users.findAll({
+                attributes: {exclude: ['password']}
             });
             return res.status(200).json(allUsers);
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(500).json({ message: error.message });
         }
     }
 
@@ -19,7 +18,7 @@ class UserController {
             const allNames = await database.Users.findAll({ attributes: ['id', 'firstName', 'lastName'] });
             return res.status(200).json(allNames);
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(500).json({ message: error.message });
         }
     }
 
@@ -29,13 +28,29 @@ class UserController {
             const user = await database.Users.findOne({ 
                 where: { 
                     id: Number(id) 
-                } 
+                },
+                attributes: {exclude: ['password']}
             });
             if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
-            user.password = null;
             return res.status(200).json(user);
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async readNameById(req, res) {
+        const { id } = req.params;
+        try {
+            const user = await database.Users.findOne({ 
+                where: { 
+                    id: Number(id) 
+                },
+                attributes: ['firstName', 'lastName']
+            });
+            if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
         }
     }
 
@@ -44,14 +59,14 @@ class UserController {
         const selectUser = await database.Users.findOne({where: {email: formUser.email}});
         if(selectUser) return res.status(507).json({ message: 'Email has been registered' });
         if(formUser.password === null) return res.status(400).json({ message: 'Password is required' });
-        if(formUser.profile_id === null) formUser.profile_id = 4;
+        if(formUser.profile_id == null | formUser.profile_id === null) formUser.profile_id = 4;
         try {
             formUser.password = bcrypt.hashSync(formUser.password, 10);
             const user = await database.Users.create(formUser);
             user.password = null;
             return res.status(201).json(user);
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(500).json({ message: error.message });
         }
     }
 
@@ -68,7 +83,7 @@ class UserController {
             })
             return res.status(200).json({ message: `ID ${id} updated` });
         } catch (error) {
-            return res.status(500).json(error.message);
+            return res.status(500).json({ message: error.message });
         }
     }
 
@@ -84,9 +99,9 @@ class UserController {
             })
             return res.status(200).json({ message: `ID ${id} deleted` });
         } catch (error) {
-            res.status(500).json(error.message);
+            res.status(500).json({ message: error.message });
         }
     }
 }
 
-module.exports = UserController
+module.exports = UserController;

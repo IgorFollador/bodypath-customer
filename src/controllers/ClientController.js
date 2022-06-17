@@ -1,25 +1,25 @@
 const database = require('../models');
 
-class StudentController {
-    static async readAllStudents(req, res) {
+class ClientController {
+    static async readAllClients(req, res) {
         try {
-            const allStudents = await database.Students.findAll({
+            const allClients = await database.Clients.findAll({
                 include: [{ 
                     model: database.Users,
                     attributes: {exclude: ['password']}
                 }]
             });
-            return res.status(200).json(allStudents);
+            return res.status(200).json(allClients);
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
     }
 
-    static async readAllStudentsByProfessionalUserId(req, res) {
+    static async readAllClientsByProfessionalUserId(req, res) {
         const { id } = req.params; // professional's user_id
 
         try {
-            const allStudents = await database.Students.findAll({
+            const allClients = await database.Clients.findAll({
                 include: [{ 
                     model: database.Users,
                     attributes: {exclude: ['password']}
@@ -28,28 +28,28 @@ class StudentController {
                     professional_id: id
                 }
             });
-            return res.status(200).json(allStudents);
+            return res.status(200).json(allClients);
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
     }
 
-    static async createStudent(req, res) {
-        const formStudent = req.body;
+    static async createClient(req, res) {
+        const formClient = req.body;
 
-        const user = await database.Users.findByPk(formStudent.user_id);
+        const user = await database.Users.findByPk(formClient.user_id);
         if(user === null) return res.status(404).json({ message: 'User not found'})
-        const student = await database.Students.findOne({ where: {user_id: formStudent.user_id }});
-        if(student) return res.status(507).json({ message: 'User has been student'})
-        const selectProfessional = await database.Professionals.findOne({ where: {user_id: formStudent.professional_id }});
-        if(selectProfessional === null) return res.status(404).json({ message: `Professional with ID ${formStudent.professional_id} not found` });
+        const client = await database.Clients.findOne({ where: {user_id: formClient.user_id }});
+        if(client) return res.status(507).json({ message: 'User has been client'})
+        const selectProfessional = await database.Professionals.findOne({ where: {user_id: formClient.professional_id }});
+        if(selectProfessional === null) return res.status(404).json({ message: `Professional with ID ${formClient.professional_id} not found` });
 
         try {
-            const student = await database.Students.create(formStudent);
+            const client = await database.Clients.create(formClient);
 
             //to review
             const STUDENT = 4;
-            if(user.profile_id != STUDENT) { // update profile if user is not student
+            if(user.profile_id != STUDENT) { // update profile if user is not client
                 user.profile_id = STUDENT;
                 await database.Users.update(user, {
                     where: { 
@@ -58,24 +58,24 @@ class StudentController {
                 })
             }
             
-            return res.status(201).json(student);
+            return res.status(201).json(client);
 
         } catch (error) {
             return res.status(500).json({ message: error.message })
         }
     }
 
-    static async deleteStudent(req, res) {
+    static async deleteClient(req, res) {
         const { id } = req.params; //USER ID
 
         try {
             
             const user = await database.Users.findByPk(id);
             if(user === null) return res.status(404).json({ message: 'User not found'})
-            const student = await database.Students.findOne({ where: {user_id: id} })
-            if(student === null) return res.status(404).json({ message: 'User is not a Student'})
+            const client = await database.Clients.findOne({ where: {user_id: id} })
+            if(client === null) return res.status(404).json({ message: 'User is not a Client'})
 
-            await database.Students.destroy({
+            await database.Clients.destroy({
                 where: {
                     user_id: Number(id)
                 }
@@ -88,4 +88,4 @@ class StudentController {
     }
 }
 
-module.exports = StudentController;
+module.exports = ClientController;

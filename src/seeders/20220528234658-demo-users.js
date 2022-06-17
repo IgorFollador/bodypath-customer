@@ -99,6 +99,18 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       },
+      {
+        firstName: 'Ronaldo',
+        lastName: 'Fenomeno',
+        email: 'ronaldofenomeno.com',
+        password: '$2a$10$JlZS/tX617GHr9JM9dg9o.l/keUp1hKD9dKjFyZZzzbNkGnEBV55y',
+        cpf: "222.432.320-12",
+        phone: "(54) 99621-1822",
+        address: "Avenida Adão Kleber, 82 - Barão de Cotegipe - RS",
+        profile_id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      },
       ], {});
   },
 

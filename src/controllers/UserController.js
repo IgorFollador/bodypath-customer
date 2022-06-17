@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt');
 class UserController {
     static async readAllUsers(req, res) {
         try {
-            const allUsers = await database.Users.findAll();
-            allUsers.forEach(user => {
-                user.password = null;
+            const allUsers = await database.Users.findAll({
+                attributes: {exclude: ['password']}
             });
             return res.status(200).json(allUsers);
         } catch (error) {
@@ -29,10 +28,10 @@ class UserController {
             const user = await database.Users.findOne({ 
                 where: { 
                     id: Number(id) 
-                } 
+                },
+                attributes: {exclude: ['password']}
             });
             if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
-            user.password = null;
             return res.status(200).json(user);
         } catch (error) {
             return res.status(500).json({ message: error.message });
@@ -105,4 +104,4 @@ class UserController {
     }
 }
 
-module.exports = UserController
+module.exports = UserController;

@@ -46,7 +46,7 @@ class ProfessionalController {
 
     static async deleteProfessional(req, res) {
         const { id } = req.params; //USER ID
-        console.log(id);
+        
         try {
             const user = await database.Users.findByPk(id);
             if(user === null) return res.status(404).json({ message: 'User not found'})

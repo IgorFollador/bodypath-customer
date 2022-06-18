@@ -25,7 +25,11 @@ class UserController {
     static async readUserById(req, res) {
         const { id } = req.params;
         try {
-            const user = await database.Users.findOne({ 
+            const user = await database.Users.findOne({
+                include: {
+                    model: database.Profiles,
+                    attributes: [ 'descr_profile' ]
+                },
                 where: { 
                     id: Number(id) 
                 },

@@ -16,6 +16,46 @@ class ProfessionalController {
         }
     }
 
+    static async readProfessionalById(req, res) {
+        const { id } = req.params;
+
+        try {
+            const professional = await database.Professionals.findOne({
+                include: [{ 
+                    model: database.Users,
+                    attributes: ['firstName', 'lastName']
+                }],
+                where: {
+                    id: id
+                }
+              });
+            return res.status(200).json(professional);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async readProfessionalByUserId(req, res) {
+        const { id } = req.params; // professional's user_id
+
+        try {
+            const professional = await database.Professionals.findOne({
+                include: [{ 
+                    model: database.Users,
+                    attributes: ['firstName', 'lastName']
+                }],
+                where: {
+                    user_id: id
+                }
+              });
+            return res.status(200).json(professional);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
     static async createProfessional(req, res) {
         const formProfessional = req.body;
         const user = await database.Users.findByPk(formProfessional.user_id);

@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       Client.belongsTo(models.Professionals, {
         foreignKey: 'professional_id'
       });
+      Client.hasMany(models.Evaluations, {
+        foreignKey: 'client_id',
+        onDelete: 'CASCADE'
+      })
     }
   }
   Client.init({

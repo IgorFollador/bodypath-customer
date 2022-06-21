@@ -15,6 +15,44 @@ class ClientController {
         }
     }
 
+    static async readClientById(req, res) {
+        const { id } = req.params;
+        try {
+            const client = await database.Clients.findOne({
+                include: [{ 
+                    model: database.Users,
+                    attributes: {exclude: ['id', 'password', 'profile_id']},
+                    include: {
+                        model: database.Profiles,
+                        attributes: [ 'id', 'descr_profile' ]
+                    },
+                }],
+                where: { 
+                    id: Number(id) 
+                },
+                attributes: {exclude: ['password']}
+            });
+            if(client == null) return res.status(200).json({ message: `Client ${id} not found!` });
+            return res.status(200).json(client);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async readAllClientsNamesByProfessionalId(req, res) {
+        try {
+            const allNames = await database.Clients.findAll({
+                include: [{ 
+                    model: database.Users,
+                    attributes: [ 'firstName', 'lastName' ]
+                }]
+            });
+            return res.status(200).json(allNames);
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
     static async readAllClientsByProfessionalId(req, res) {
         const { id } = req.params; // professional's id
 
@@ -91,10 +129,28 @@ class ClientController {
         } catch (error) {
             return res.status(500).json({ message: error.message });
         }
-
     }
 
-    static async deleteClient(req, res) {
+    static async updateClientById(req, res) {
+        const { id } = req.params; // client's ID
+        const formClient = req.body;
+        try {
+            const client = await database.Clients.findByPk(id);
+
+            const user = await database.Users.findByPk(client.user_id);
+            if(user === null) return res.status(404).json({ message: 'User not found' });
+            await database.Users.update(formClient, {
+                where: {
+                    id: Number(client.user_id)
+                }
+            })
+            return res.status(200).json({ message: `Client with ID ${id} updated` });
+        } catch (error) {
+            return res.status(500).json({ message: error.message });
+        }
+    }
+
+    static async deleteClientById(req, res) {
         const { id } = req.params; // client's ID
 
         try {

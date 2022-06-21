@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'professional_id',
         onDelete: 'CASCADE'
       });
-      Professional.hasMany(models.Evaluations, {
-        foreignKey: 'professional_id',
-        onDelete: 'CASCADE'
-      });
     }
   }
   Professional.init({

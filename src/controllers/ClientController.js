@@ -106,6 +106,12 @@ class ClientController {
                     id: Number(id)
                 }
             })
+
+            await database.Users.destroy({
+                where: {
+                    id: Number(client.user_id)
+                }
+            })
             return res.status(200).json({ message: `Client with ID ${id} deleted from professional reference and User referenced too` });
 
         } catch (error) {

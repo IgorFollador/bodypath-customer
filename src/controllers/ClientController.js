@@ -40,12 +40,16 @@ class ClientController {
     }
 
     static async readAllClientsNamesByProfessionalId(req, res) {
+        const  { id } = req.params; // professional's id
         try {
             const allNames = await database.Clients.findAll({
                 include: [{ 
                     model: database.Users,
                     attributes: [ 'firstName', 'lastName' ]
-                }]
+                }],
+                where: { 
+                    professional_id: Number(id) 
+                },
             });
             return res.status(200).json(allNames);
         } catch (error) {

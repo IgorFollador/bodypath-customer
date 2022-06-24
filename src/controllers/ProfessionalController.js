@@ -48,7 +48,8 @@ class ProfessionalController {
                 where: {
                     user_id: id
                 }
-              });
+            });
+            if(professional == null) return res.status(404).json({ message: `User_ID ${id} is not professional` })
             return res.status(200).json(professional);
         } catch (error) {
             console.log(error);

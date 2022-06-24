@@ -13,15 +13,6 @@ class UserController {
         }
     }
 
-    static async readAllNames(req, res) {
-        try {
-            const allNames = await database.Users.findAll({ attributes: ['id', 'firstName', 'lastName'] });
-            return res.status(200).json(allNames);
-        } catch (error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-
     static async readUserById(req, res) {
         const { id } = req.params;
         try {
@@ -34,22 +25,6 @@ class UserController {
                     id: Number(id) 
                 },
                 attributes: {exclude: ['password']}
-            });
-            if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
-            return res.status(200).json(user);
-        } catch (error) {
-            return res.status(500).json({ message: error.message });
-        }
-    }
-
-    static async readNameById(req, res) {
-        const { id } = req.params;
-        try {
-            const user = await database.Users.findOne({ 
-                where: { 
-                    id: Number(id) 
-                },
-                attributes: ['firstName', 'lastName']
             });
             if(user == null) return res.status(200).json({ message: `User ${id} not found!` });
             return res.status(200).json(user);
